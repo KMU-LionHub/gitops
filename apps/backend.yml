@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: backend
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/KMU-LionHub/context-stt-gitops.git
+    targetRevision: HEAD
+    path: backend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+      - PruneLast=true

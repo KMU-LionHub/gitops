@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mysql
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: mysql
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/KMU-LionHub/context-stt-gitops.git
+    targetRevision: HEAD
+    path: mysql
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+      - PruneLast=true
